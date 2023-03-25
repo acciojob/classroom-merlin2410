@@ -74,6 +74,8 @@ public class StudentRepository {
 
     public List<Student> getStudentByTeacherName(String teacherName)
     {
-        return studentTeacher.get(teacherDb.get(teacherName));
+        if(studentTeacher.containsKey(teacherDb.get(teacherName)))
+            return studentTeacher.get(teacherDb.get(teacherName));
+        return new ArrayList<>();
     }
 }
