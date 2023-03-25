@@ -49,12 +49,11 @@ public class StudentService {
 
     public List<String> getStudentByTeacherName(String teacherName)
     {
-        List<Student> students = studentRepository.getAllStudents();
+        List<Student> students = studentRepository.getStudentByTeacherName(teacherName);
         List<String> studentsByTeacherName = new ArrayList<>();
         for(Student student: students)
         {
-            if(student.getTeacherName()!=null && student.getTeacherName().equals(teacherName))
-                studentsByTeacherName.add(student.getName());
+            studentsByTeacherName.add(student.getName());
         }
         return studentsByTeacherName;
     }

@@ -10,6 +10,7 @@ import java.util.List;
 public class StudentRepository {
     HashMap<String,Student> studentDb = new HashMap<>();
     HashMap<String,Teacher> teacherDb = new HashMap<>();
+    HashMap<Teacher,List<Student>> studentTeacher = new HashMap<>();
 
 
     public void addStudent(Student student)
@@ -23,7 +24,20 @@ public class StudentRepository {
     }
     public void addStudentTeacherPair(String studentName, String teacherName)
     {
-        studentDb.get(studentName).setTeacherName(teacherName);
+        Teacher teacher = teacherDb.get(teacherName);
+        Student student = studentDb.get(studentName);
+        if(studentTeacher.containsKey(teacher))
+        {
+            List<Student> students = studentTeacher.get(teacher);
+            students.add(student);
+            studentTeacher.put(teacher,students);
+        }
+        else
+        {
+            List<Student> students = new ArrayList<>();
+            students.add(student);
+            studentTeacher.put(teacher,students);
+        }
     }
 
     public List<Student> getAllStudents()
@@ -39,20 +53,13 @@ public class StudentRepository {
     public void deleteTeacherByName(String name)
     {
         teacherDb.remove(name);
-        for(Student student: studentDb.values())
-        {
-            if(student.getTeacherName()!=null && student.getTeacherName().equals(name))
-                student.setTeacherName(null);
-        }
+        studentTeacher.remove(name);
     }
 
     public void deleteAllTeachers()
     {
         teacherDb.clear();
-        for(Student student: studentDb.values())
-        {
-            student.setTeacherName(null);
-        }
+        studentTeacher.clear();
     }
 
     public List<Teacher> getAllTeachers()
@@ -63,5 +70,10 @@ public class StudentRepository {
             teachers.add(teacher);
         }
         return teachers;
+    }
+
+    public List<Student> getStudentByTeacherName(String teacherName)
+    {
+        return studentTeacher.get(teacherDb.get(teacherName));
     }
 }

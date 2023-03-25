@@ -5,7 +5,7 @@ public class Student {
     private String name;
     private int age;
     private double averageScore;
-    private String teacherName;
+
 
     public Student(String name, int age, double averageScore) {
         this.name = name;
@@ -17,13 +17,6 @@ public class Student {
 
     }
 
-    public String getTeacherName() {
-        return teacherName;
-    }
-
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
-    }
 
     public String getName() {
         return name;
