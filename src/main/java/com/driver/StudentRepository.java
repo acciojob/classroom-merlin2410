@@ -52,14 +52,26 @@ public class StudentRepository {
 
     public void deleteTeacherByName(String name)
     {
+        Teacher teacher = teacherDb.get(name);
         teacherDb.remove(name);
-        studentTeacher.remove(name);
+        for(Student student: studentTeacher.get(teacher))
+        {
+            studentDb.remove(student.getName());
+        }
+        studentTeacher.remove(teacher);
     }
 
     public void deleteAllTeachers()
     {
-        teacherDb.clear();
+        for(Teacher teacher: teacherDb.values())
+        {
+            for(Student student: studentTeacher.get(teacher))
+            {
+                studentDb.remove(student.getName());
+            }
+        }
         studentTeacher.clear();
+        teacherDb.clear();
     }
 
     public List<Teacher> getAllTeachers()
